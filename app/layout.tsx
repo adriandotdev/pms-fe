@@ -42,7 +42,7 @@ export default function RootLayout({
 						<SidebarProvider>
 							<AppSidebar />
 							<main className="py-3 px-5 w-full">
-								<div>
+								<div className="flex justify-between">
 									<SidebarTrigger />
 									<ModeToggle />
 								</div>
