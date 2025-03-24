@@ -3,10 +3,10 @@ import QueryProvider from "@/components/query-provider";
 import { ModeToggle } from "@/components/theme-dropdown";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
 const geistSans = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
@@ -48,6 +48,7 @@ export default function RootLayout({
 								</div>
 
 								{children}
+								<Toaster data-cy="toaster" />
 							</main>
 						</SidebarProvider>
 					</ThemeProvider>
