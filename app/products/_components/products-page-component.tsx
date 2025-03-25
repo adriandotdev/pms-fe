@@ -71,7 +71,7 @@ const ProductComponent = () => {
 	});
 
 	const table = useReactTable({
-		data: data?.products as unknown as Product[],
+		data: data?.products.length ? (data?.products as unknown as Product[]) : [],
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
@@ -93,9 +93,8 @@ const ProductComponent = () => {
 
 			{isLoading && <div>Loading...</div>}
 			{data?.products.length === 0 && <div>No Products</div>}
-			{data?.products && data.products.length > 0 && (
-				<DataTablePagination table={table} />
-			)}
+
+			<DataTablePagination table={table} />
 		</div>
 	);
 };
