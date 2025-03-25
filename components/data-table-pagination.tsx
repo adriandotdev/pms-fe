@@ -23,7 +23,6 @@ interface DataTablePaginationProps<TData> {
 export function DataTablePagination<TData>({
 	table,
 }: DataTablePaginationProps<TData>) {
-	console.log(table.getFilteredSelectedRowModel);
 	return (
 		<>
 			<DataTable table={table} />

@@ -22,6 +22,7 @@ interface Product {
 	price: number;
 	category: Category;
 	createdAt: string;
+	expirationDate: string;
 }
 
 interface QueryResponse {
@@ -50,6 +51,13 @@ const columns: ColumnDef<Product>[] = [
 		accessorKey: "createdAt",
 		header: "Date Created",
 	},
+	{
+		accessorKey: "expirationDate",
+		header: "Expiration Date",
+		cell: ({ row }) => {
+			return row.original.expirationDate ? row.original.expirationDate : "--";
+		},
+	},
 ];
 
 import axios from "axios";
@@ -57,7 +65,7 @@ import axios from "axios";
 const ProductComponent = () => {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
-	const { data, isLoading, refetch } = useQuery({
+	const { data, isLoading, refetch, isFetched } = useQuery({
 		queryKey: ["products"],
 		queryFn: async () => {
 			const response = await axios.get<QueryResponse>(
@@ -92,9 +100,8 @@ const ProductComponent = () => {
 			<h1 className="text-2xl font-bold">Products</h1>
 
 			{isLoading && <div>Loading...</div>}
-			{data?.products.length === 0 && <div>No Products</div>}
 
-			<DataTablePagination table={table} />
+			{isFetched && <DataTablePagination table={table} />}
 		</div>
 	);
 };

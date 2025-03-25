@@ -27,13 +27,15 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { DatePicker } from "./date-picker";
 
 const formSchema = z.object({
-	name: z.string().min(1, { message: "Please provide a product name" }),
+	name: z.string().min(1, { message: "Please provide a product name." }),
 	price: z.coerce
 		.number()
-		.min(1, { message: "Please provide a product price" }),
+		.min(1, { message: "Please provide a product price." }),
 	categoryId: z.string(),
+	expirationDate: z.string().optional(),
 });
 
 interface Category {
@@ -61,15 +63,18 @@ const CreateProductPage = () => {
 			Name,
 			Price,
 			CategoryId,
+			ExpirationDate,
 		}: {
 			Name: string;
 			Price: number;
 			CategoryId: number;
+			ExpirationDate: string;
 		}) => {
 			await axios.post("http://localhost:5126/api/v1/products", {
 				Name,
 				Price,
 				CategoryId,
+				ExpirationDate,
 			});
 		},
 		onSuccess: () => {
@@ -98,6 +103,7 @@ const CreateProductPage = () => {
 			Name: values.name,
 			Price: values.price,
 			CategoryId: +values.categoryId,
+			ExpirationDate: values.expirationDate ?? "",
 		});
 	}
 
@@ -178,6 +184,18 @@ const CreateProductPage = () => {
 										))}
 									</SelectContent>
 								</Select>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="expirationDate"
+						render={({ field }) => (
+							<FormItem className="flex flex-col">
+								<FormLabel>Expiration Date</FormLabel>
+								<DatePicker field={field} />
 								<FormMessage />
 							</FormItem>
 						)}
