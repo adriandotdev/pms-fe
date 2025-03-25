@@ -25,7 +25,14 @@ export function DataTable<TData>({ table }: DataTableProps<TData>) {
 						<TableRow key={headerGroup.id}>
 							{headerGroup.headers.map((header) => {
 								return (
-									<TableHead key={header.id}>
+									<TableHead
+										data-header={
+											typeof header.column.columnDef.header === "string"
+												? header.column.columnDef.header
+												: undefined
+										}
+										key={header.id}
+									>
 										{header.isPlaceholder
 											? null
 											: flexRender(
