@@ -23,6 +23,7 @@ interface Product {
 	category: Category;
 	createdAt: string;
 	expirationDate: string;
+	description: string;
 }
 
 interface QueryResponse {
@@ -42,6 +43,18 @@ const columns: ColumnDef<Product>[] = [
 	{
 		accessorKey: "price",
 		header: "Price",
+	},
+	{
+		accessorKey: "description",
+		header: "Description",
+		cell: ({ row }) => {
+			if (!row.original.description) return "--";
+
+			if (row.original.description.length > 25)
+				return row.original.description.slice(0, 25).concat("...");
+
+			return row.original.description;
+		},
 	},
 	{
 		accessorKey: "category.name",

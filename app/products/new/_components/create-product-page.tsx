@@ -22,6 +22,7 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
+import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -36,6 +37,7 @@ const formSchema = z.object({
 		.min(1, { message: "Please provide a product price." }),
 	categoryId: z.string(),
 	expirationDate: z.string().optional(),
+	description: z.string().optional(),
 });
 
 interface Category {
@@ -64,17 +66,20 @@ const CreateProductPage = () => {
 			Price,
 			CategoryId,
 			ExpirationDate,
+			Description,
 		}: {
 			Name: string;
 			Price: number;
 			CategoryId: number;
-			ExpirationDate: string;
+			ExpirationDate: string | null;
+			Description: string | null;
 		}) => {
 			await axios.post("http://localhost:5126/api/v1/products", {
 				Name,
 				Price,
 				CategoryId,
 				ExpirationDate,
+				Description,
 			});
 		},
 		onSuccess: () => {
@@ -103,7 +108,8 @@ const CreateProductPage = () => {
 			Name: values.name,
 			Price: values.price,
 			CategoryId: +values.categoryId,
-			ExpirationDate: values.expirationDate ?? "",
+			ExpirationDate: values.expirationDate ?? null,
+			Description: values.description ?? null,
 		});
 	}
 
@@ -197,6 +203,20 @@ const CreateProductPage = () => {
 								<FormLabel>Expiration Date</FormLabel>
 								<DatePicker field={field} />
 								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="description"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Description</FormLabel>
+								<FormControl>
+									<Textarea placeholder="Description (optional)" {...field} />
+								</FormControl>
+								<FormMessage data-cy="price-error-message" />
 							</FormItem>
 						)}
 					/>
