@@ -1,5 +1,5 @@
-describe("template spec", () => {
-	it("all fields are valid", () => {
+describe("Create Products", () => {
+	it("should create a new product when all fields are valid", () => {
 		cy.visit("http://localhost:3000/products/new");
 
 		cy.get("[data-cy='name']")
@@ -24,7 +24,7 @@ describe("template spec", () => {
 		cy.contains("Product successfully created").should("be.visible");
 	});
 
-	it("name field is empty", () => {
+	it("should have an error when name field is empty", () => {
 		cy.visit("http://localhost:3000/products/new");
 
 		cy.get("[data-cy='name']");
@@ -37,6 +37,25 @@ describe("template spec", () => {
 
 		cy.get("button[type='submit']").click();
 
-		cy.get("[data-cy='name-error-message']").should("be.visible");
+		cy.get("[data-cy='name-error-message']")
+			.should("be.visible")
+			.and("include.text", "Please provide a product name");
+	});
+
+	it("should have an error when price field is empty", () => {
+		cy.visit("http://localhost:3000/products/new");
+
+		cy.get("[data-cy='name']")
+			.type("Ajinomoto")
+			.invoke("val")
+			.then((value) => expect(value).to.equal("Ajinomoto"));
+
+		cy.get('[data-cy="price"]');
+
+		cy.get("button[type='submit']").click();
+
+		cy.get("[data-cy='price-error-message']")
+			.should("be.visible")
+			.and("include.text", "Please provide a product price");
 	});
 });

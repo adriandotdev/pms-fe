@@ -147,7 +147,7 @@ const CreateProductPage = () => {
 										{...field}
 									/>
 								</FormControl>
-								<FormMessage />
+								<FormMessage data-cy="price-error-message" />
 							</FormItem>
 						)}
 					/>

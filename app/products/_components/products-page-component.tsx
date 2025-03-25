@@ -11,10 +11,17 @@ import {
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 
+interface Category {
+	id: number;
+	name: string;
+}
+
 interface Product {
 	id: number;
 	name: string;
 	price: number;
+	category: Category;
+	createdAt: string;
 }
 
 interface QueryResponse {
@@ -34,6 +41,14 @@ const columns: ColumnDef<Product>[] = [
 	{
 		accessorKey: "price",
 		header: "Price",
+	},
+	{
+		accessorKey: "category.name",
+		header: "Category",
+	},
+	{
+		accessorKey: "createdAt",
+		header: "Date Created",
 	},
 ];
 
