@@ -25,9 +25,10 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { createNewProduct } from "../../mutations/create-product.mutation";
+import { getCategories } from "../../queries/get-categories.query";
 import { DatePicker } from "./date-picker";
 
 const formSchema = z.object({
@@ -40,48 +41,14 @@ const formSchema = z.object({
 	description: z.string().optional(),
 });
 
-interface Category {
-	id: number;
-	name: string;
-}
-
-interface CategoryResponse {
-	categories: Category[];
-}
-
 const CreateProductPage = () => {
 	const { data: categories } = useQuery({
 		queryKey: ["categories"],
-		queryFn: async () => {
-			const response = await axios.get<CategoryResponse>(
-				"http://localhost:5126/api/v1/categories"
-			);
-
-			return response.data.categories;
-		},
+		queryFn: getCategories,
 	});
+
 	const createProduct = useMutation({
-		mutationFn: async ({
-			Name,
-			Price,
-			CategoryId,
-			ExpirationDate,
-			Description,
-		}: {
-			Name: string;
-			Price: number;
-			CategoryId: number;
-			ExpirationDate: string | null;
-			Description: string | null;
-		}) => {
-			await axios.post("http://localhost:5126/api/v1/products", {
-				Name,
-				Price,
-				CategoryId,
-				ExpirationDate,
-				Description,
-			});
-		},
+		mutationFn: createNewProduct,
 		onSuccess: () => {
 			form.reset();
 			toast.info("Product successfully created", { position: "top-right" });
@@ -119,6 +86,7 @@ const CreateProductPage = () => {
 			categories?.length ? categories[0].id.toString() : ""
 		);
 	}, [categories, form]);
+
 	return (
 		<div className="mt-5">
 			<h1 className="text-2xl font-bold">New Product</h1>
