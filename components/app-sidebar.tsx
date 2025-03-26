@@ -36,7 +36,7 @@ export function AppSidebar() {
 							{items.map((item) => (
 								<SidebarMenuItem key={item.title}>
 									<SidebarMenuButton asChild>
-										<a href={item.url}>
+										<a data-cy-menu={item.title} href={item.url}>
 											<item.icon />
 											<span>{item.title}</span>
 										</a>

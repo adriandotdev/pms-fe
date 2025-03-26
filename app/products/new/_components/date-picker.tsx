@@ -25,6 +25,7 @@ export function DatePicker({
 			<PopoverTrigger asChild>
 				<FormControl>
 					<Button
+						data-cy="expiration-date"
 						variant={"outline"}
 						className={cn(
 							"pl-3 text-left font-normal",
@@ -34,7 +35,7 @@ export function DatePicker({
 						{field.value ? (
 							format(field.value, "yyyy-MM-dd")
 						) : (
-							<span>Pick a date</span>
+							<span>Pick a date (optional)</span>
 						)}
 						<CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
 					</Button>

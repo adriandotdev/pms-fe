@@ -11,25 +11,6 @@ import {
 } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
 
-interface Category {
-	id: number;
-	name: string;
-}
-
-interface Product {
-	id: number;
-	name: string;
-	price: number;
-	category: Category;
-	createdAt: string;
-	expirationDate: string;
-}
-
-interface QueryResponse {
-	products: Product[];
-	totalProducts: number;
-}
-
 const columns: ColumnDef<Product>[] = [
 	{
 		accessorKey: "id",
@@ -42,6 +23,18 @@ const columns: ColumnDef<Product>[] = [
 	{
 		accessorKey: "price",
 		header: "Price",
+	},
+	{
+		accessorKey: "description",
+		header: "Description",
+		cell: ({ row }) => {
+			if (!row.original.description) return "--";
+
+			if (row.original.description.length > 25)
+				return row.original.description.slice(0, 25).concat("...");
+
+			return row.original.description;
+		},
 	},
 	{
 		accessorKey: "category.name",
@@ -60,22 +53,14 @@ const columns: ColumnDef<Product>[] = [
 	},
 ];
 
-import axios from "axios";
+import { getProducts, Product } from "../queries/get-products.query";
 
 const ProductComponent = () => {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
 
 	const { data, isLoading, refetch, isFetched } = useQuery({
 		queryKey: ["products"],
-		queryFn: async () => {
-			const response = await axios.get<QueryResponse>(
-				`http://localhost:5126/api/v1/products?pageSize=${
-					pagination.pageSize
-				}&pageNumber=${pagination.pageIndex + 1}`
-			);
-
-			return response.data;
-		},
+		queryFn: () => getProducts({ ...pagination }),
 	});
 
 	const table = useReactTable({
