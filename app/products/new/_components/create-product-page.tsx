@@ -169,7 +169,7 @@ const CreateProductPage = () => {
 						render={({ field }) => (
 							<FormItem className="flex flex-col">
 								<FormLabel>Expiration Date</FormLabel>
-								<DatePicker field={field} />
+								<DatePicker data-cy="expirationDate" field={field} />
 								<FormMessage />
 							</FormItem>
 						)}
@@ -182,7 +182,11 @@ const CreateProductPage = () => {
 							<FormItem>
 								<FormLabel>Description</FormLabel>
 								<FormControl>
-									<Textarea placeholder="Description (optional)" {...field} />
+									<Textarea
+										data-cy="description"
+										placeholder="Description (optional)"
+										{...field}
+									/>
 								</FormControl>
 								<FormMessage data-cy="price-error-message" />
 							</FormItem>

@@ -26,7 +26,7 @@ export function DataTable<TData>({ table }: DataTableProps<TData>) {
 							{headerGroup.headers.map((header) => {
 								return (
 									<TableHead
-										data-header={
+										data-cy-header={
 											typeof header.column.columnDef.header === "string"
 												? header.column.columnDef.header
 												: undefined

@@ -15,9 +15,16 @@ describe("Create Products", () => {
 
 		cy.get("[data-cy='category']").click({ force: true });
 
-		cy.contains("[role='option']", "Beverages").click({ force: true });
+		cy.contains("[role='option']", "Canned Goods").click({ force: true });
 
-		cy.get("[data-cy='category']").should("contain", "Beverages");
+		cy.get("[data-cy='category']").should("contain", "Canned Goods");
+
+		cy.get('[data-cy="expiration-date"]').click();
+		cy.get('[role="gridcell"]').first().click();
+
+		cy.get('[data-cy="description"]')
+			.type("Some description")
+			.should("have.value", "Some description");
 
 		cy.get("button[type='submit']").click();
 
