@@ -48,7 +48,7 @@ export default function RootLayout({
 								</div>
 
 								{children}
-								<Toaster data-cy="toaster" />
+								<Toaster data-cy="toaster" duration={1500} />
 							</main>
 						</SidebarProvider>
 					</ThemeProvider>

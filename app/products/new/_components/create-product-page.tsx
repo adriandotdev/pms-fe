@@ -27,8 +27,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { createNewProduct } from "../../mutations/create-product.mutation";
-import { getCategories } from "../../queries/get-categories.query";
+import { createNewProduct } from "../../../mutations/create-product.mutation";
+import { getCategories } from "../../../queries/get-categories.query";
 import { DatePicker } from "./date-picker";
 
 const formSchema = z.object({
@@ -50,7 +50,14 @@ const CreateProductPage = () => {
 	const createProduct = useMutation({
 		mutationFn: createNewProduct,
 		onSuccess: () => {
-			form.reset();
+			form.reset({
+				name: "",
+				price: 0,
+				categoryId: categories?.length ? categories[0].id.toString() : "",
+				expirationDate: "",
+				description: "",
+			});
+
 			toast.info("Product successfully created", { position: "top-right" });
 		},
 	});
@@ -67,10 +74,6 @@ const CreateProductPage = () => {
 	});
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
-
 		await createProduct.mutateAsync({
 			Name: values.name,
 			Price: values.price,
@@ -85,7 +88,7 @@ const CreateProductPage = () => {
 			"categoryId",
 			categories?.length ? categories[0].id.toString() : ""
 		);
-	}, [categories, form]);
+	}, [categories]);
 
 	return (
 		<div className="mt-5">
@@ -192,7 +195,7 @@ const CreateProductPage = () => {
 							</FormItem>
 						)}
 					/>
-					<Button name="submit" type="submit">
+					<Button className="w-full" name="submit" type="submit">
 						Submit
 					</Button>
 				</form>

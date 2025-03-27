@@ -53,7 +53,7 @@ const columns: ColumnDef<Product>[] = [
 	},
 ];
 
-import { getProducts, Product } from "../queries/get-products.query";
+import { getProducts, Product } from "../../queries/get-products.query";
 
 const ProductComponent = () => {
 	const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
