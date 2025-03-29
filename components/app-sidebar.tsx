@@ -1,4 +1,4 @@
-import { Home, PlusIcon } from "lucide-react";
+import { ListIcon, PlusIcon } from "lucide-react";
 
 import {
 	Sidebar,
@@ -16,12 +16,17 @@ const items = [
 	{
 		title: "Products",
 		url: "/products",
-		icon: Home,
+		icon: ListIcon,
 	},
 	{
 		title: "Create Product",
 		url: "/products/new",
 		icon: PlusIcon,
+	},
+	{
+		title: "Categories",
+		url: "/categories",
+		icon: ListIcon,
 	},
 ];
 
