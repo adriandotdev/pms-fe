@@ -42,7 +42,7 @@ const formSchema = z.object({
 });
 
 const CreateProductPage = () => {
-	const { data: categories } = useQuery({
+	const { data } = useQuery({
 		queryKey: ["categories"],
 		queryFn: getCategories,
 	});
@@ -53,7 +53,9 @@ const CreateProductPage = () => {
 			form.reset({
 				name: "",
 				price: 0,
-				categoryId: categories?.length ? categories[0].id.toString() : "",
+				categoryId: data?.categories?.length
+					? data.categories[0].id.toString()
+					: "",
 				expirationDate: "",
 				description: "",
 			});
@@ -67,7 +69,9 @@ const CreateProductPage = () => {
 		defaultValues: {
 			name: "",
 			price: 0,
-			categoryId: categories?.length ? categories[0].id.toString() : "",
+			categoryId: data?.categories?.length
+				? data?.categories[0].id.toString()
+				: "",
 		},
 
 		mode: "all",
@@ -86,9 +90,9 @@ const CreateProductPage = () => {
 	useEffect(() => {
 		form.setValue(
 			"categoryId",
-			categories?.length ? categories[0].id.toString() : ""
+			data?.categories?.length ? data?.categories[0].id.toString() : ""
 		);
-	}, [categories]);
+	}, [data?.categories]);
 
 	return (
 		<div className="mt-5">
@@ -143,7 +147,7 @@ const CreateProductPage = () => {
 								<FormLabel>Categories</FormLabel>
 								<Select
 									onValueChange={field.onChange}
-									value={field.value || categories?.[0]?.id.toString()}
+									value={field.value || data?.categories?.[0]?.id.toString()}
 								>
 									<FormControl>
 										<SelectTrigger data-cy="category" className="w-full">
@@ -151,7 +155,7 @@ const CreateProductPage = () => {
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										{categories?.map((category) => (
+										{data?.categories?.map((category) => (
 											<SelectItem
 												key={category.id}
 												value={category.id.toString()}

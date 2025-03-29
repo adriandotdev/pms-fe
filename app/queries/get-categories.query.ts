@@ -1,12 +1,17 @@
 import axios from "axios";
+import { Product } from "./get-products.query";
 
-interface Category {
+export interface Category {
 	id: number;
 	name: string;
+	description: string;
+	createdAt: string;
+	products: Product[];
 }
 
 interface CategoryResponse {
 	categories: Category[];
+	totalCategories: number;
 }
 
 export const getCategories = async () => {
@@ -14,5 +19,5 @@ export const getCategories = async () => {
 		"http://localhost:5126/api/v1/categories"
 	);
 
-	return response.data.categories;
+	return response.data;
 };
