@@ -73,16 +73,16 @@ const CreateProductPage = () => {
 				? data?.categories[0].id.toString()
 				: "",
 		},
-
 		mode: "all",
 	});
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
+		console.log(values);
 		await createProduct.mutateAsync({
 			Name: values.name,
 			Price: values.price,
 			CategoryId: +values.categoryId,
-			ExpirationDate: values.expirationDate ?? null,
+			ExpirationDate: values.expirationDate ? values.expirationDate : null,
 			Description: values.description ?? null,
 		});
 	}
